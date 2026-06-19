@@ -61,9 +61,14 @@
             class="font-display font-black text-2xl uppercase tracking-tighter cursor-hover hover:text-gray-300 transition-colors pointer-events-auto"
             data-cursor-text="Home">R.B.</a>
 
-        <a href="mailto:rupeshbethapudi@gmail.com"
-            class="border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover pointer-events-auto mr-12 md:mr-24"
-            data-cursor-text="Email">Connect</a>
+        <div class="flex items-center gap-6 pointer-events-auto mr-12 md:mr-24">
+            <button id="theme-toggle" class="font-mono text-xl cursor-hover hover:text-gray-300 transition-colors" data-cursor-text="Theme">
+                [ ☾ ]
+            </button>
+            <a href="mailto:rupeshbethapudi@gmail.com"
+                class="border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover"
+                data-cursor-text="Email">Connect</a>
+        </div>
     </nav>
 
     <!-- Right Arc Navigation -->
@@ -171,26 +176,25 @@
                                 BETHAPUDI<br>
                                 <span class="text-stroke"></span>RUPESH
                             </h1>
-                            <p
-                                class="font-mono text-lg font-medium max-w-md bg-paper p-4 border-2 border-ink border-dashed">
-                                Crafting intelligent systems & secure full-stack platforms. I am a AI / ML Engineer
-                                turning data into deployed intelligence.
+                            <p id="intro-text"
+                                class="font-mono text-lg font-medium max-w-md bg-paper p-4 border-2 border-ink border-dashed min-h-[120px]">
+                                Crafting intelligent systems & secure full-stack platforms. I am a AI / ML Engineer turning data into deployed intelligence.
                             </p>
                             <div class="flex gap-4 pt-4">
                                 <a href="https://www.linkedin.com/in/rupesh-bethapudi" target="_blank"
-                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-bgLight cursor-hover animate-float"
+                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-bgLight cursor-hover animate-float"
                                     style="animation-delay: 0s;" data-cursor-text="Link">
-                                    <i class="fab fa-linkedin-in text-xl"></i>
+                                    <i class="fab fa-linkedin-in text-xl pointer-events-none"></i>
                                 </a>
                                 <a href="https://github.com/RupeshO7a" target="_blank"
-                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-bgLight cursor-hover animate-float"
+                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-bgLight cursor-hover animate-float"
                                     style="animation-delay: 0.5s;" data-cursor-text="Code">
-                                    <i class="fab fa-github text-xl"></i>
+                                    <i class="fab fa-github text-xl pointer-events-none"></i>
                                 </a>
                                 <a href="mailto:rupeshbethapudi@gmail.com"
-                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-ink text-paper cursor-hover animate-float"
+                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-ink text-paper cursor-hover animate-float"
                                     style="animation-delay: 1s;" data-cursor-text="Email">
-                                    <i class="fas fa-envelope text-xl"></i>
+                                    <i class="fas fa-envelope text-xl pointer-events-none"></i>
                                 </a>
                             </div>
                         </div>
@@ -375,7 +379,7 @@
                 <!-- Main Dynamic Display Area -->
                 <div class="w-full lg:w-2/3 reveal-right">
                     <div class="border-4 border-ink bg-bgLight shadow-2d-hover h-full flex flex-col relative overflow-hidden group cursor-hover"
-                        data-cursor-text="Explore">
+                        data-cursor-text="Explore" data-tilt data-tilt-max="2" data-tilt-speed="400" data-tilt-perspective="1000">
 
                         <!-- Decorative background grid -->
                         <div class="absolute inset-0 opacity-20 pointer-events-none bg-grid"></div>
@@ -610,8 +614,13 @@
                 style="transition-delay: 300ms;">&copy; 2026 Rupesh Bethapudi. System Nominal.</p>
         </footer>
 
+        <!-- Back to Top Button -->
+        <button id="back-to-top" class="border-4 border-ink bg-bgLight px-4 py-2 font-mono font-bold uppercase shadow-2d-sm hover:shadow-2d cursor-hover" data-cursor-text="Top">
+            [^] Return
+        </button>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
 </body>
 

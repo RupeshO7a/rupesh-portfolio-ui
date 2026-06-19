@@ -1,4 +1,46 @@
 window.addEventListener('load', () => {
+            // Theme Toggle Logic
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeToggleBtn) themeToggleBtn.innerText = '[ ☼ ]';
+            }
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    document.documentElement.classList.toggle('dark');
+                    if (document.documentElement.classList.contains('dark')) {
+                        localStorage.setItem('theme', 'dark');
+                        themeToggleBtn.innerText = '[ ☼ ]';
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                        themeToggleBtn.innerText = '[ ☾ ]';
+                    }
+                });
+            }
+
+            // Intro Text Typing Effect Setup
+            const introTextEl = document.getElementById('intro-text');
+            let originalIntroText = "";
+            if (introTextEl) {
+                originalIntroText = introTextEl.innerText.trim();
+                introTextEl.innerText = "";
+            }
+
+            function typeIntro() {
+                if (!introTextEl || !originalIntroText) return;
+                let i = 0;
+                function typeChar() {
+                    if (i < originalIntroText.length) {
+                        introTextEl.innerHTML = originalIntroText.substring(0, i + 1) + '<span class="cursor-blink"></span>';
+                        i++;
+                        setTimeout(typeChar, 20 + Math.random() * 30);
+                    } else {
+                        introTextEl.innerHTML = originalIntroText;
+                    }
+                }
+                setTimeout(typeChar, 500);
+            }
             const loader = document.getElementById('loader');
             const bootText = document.getElementById('boot-text');
             const bootBtnContainer = document.getElementById('boot-btn-container');
@@ -37,6 +79,7 @@ window.addEventListener('load', () => {
                             setTimeout(() => {
                                 loader.style.display = 'none';
                                 revealObserver.observe(document.body);
+                                typeIntro();
                             }, 500);
                         }, 600);
                     }
@@ -49,6 +92,7 @@ window.addEventListener('load', () => {
                 });
             } else {
                 revealObserver.observe(document.body);
+                typeIntro();
             }
         });
 
@@ -323,3 +367,33 @@ window.addEventListener('load', () => {
                 renderProject(index);
             });
         });
+
+        // Magnetic Buttons
+        const magneticBtns = document.querySelectorAll('.magnetic-btn');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const h = rect.width / 2;
+                const x = e.clientX - rect.left - h;
+                const y = e.clientY - rect.top - h;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }

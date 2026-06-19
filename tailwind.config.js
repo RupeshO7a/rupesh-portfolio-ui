@@ -3,9 +3,9 @@ tailwind.config = {
     theme: {
         extend: {
             colors: {
-                paper: 'var(--color-paper)',
-                ink: 'var(--color-ink)',
-                bgLight: 'var(--color-bgLight)',
+                paper: 'rgb(var(--color-paper-rgb) / <alpha-value>)',
+                ink: 'rgb(var(--color-ink-rgb) / <alpha-value>)',
+                bgLight: 'rgb(var(--color-bgLight-rgb) / <alpha-value>)',
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],

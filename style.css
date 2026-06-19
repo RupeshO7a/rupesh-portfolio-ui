@@ -280,6 +280,12 @@ html.dark .bg-diamond {
     transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
+@media (min-width: 1024px) {
+    #back-to-top {
+        right: 320px; /* Shift left to avoid overlapping the right arc navigation */
+    }
+}
+
 #back-to-top.visible {
     opacity: 1;
     pointer-events: auto;

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rupesh Bethapudi | Data Science & UI/UX</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script src="tailwind.config.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="antialiased selection:bg-ink selection:text-bgLight bg-grid">
+
+    <!-- Particle Swarm Canvas -->
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-80"></canvas>
+
+    <!-- Custom Cursor -->
+    <div id="cursor">
+        <span id="cursor-text" style="opacity: 0; transition: opacity 0.2s;"></span>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="terminal-loader">
+            <div class="terminal-header">
+                <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
+                <div class="w-4 h-4 rounded-full border-2 border-ink bg-ink"></div>
+                <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
+                <div class="ml-auto font-mono text-xs font-bold uppercase tracking-widest">Boot Sequence</div>
+            </div>
+            <div class="flex flex-col items-center justify-center my-6 text-center" id="boot-btn-container">
+                <h2 class="text-xl md:text-2xl font-display font-black uppercase mb-2">Rupesh Bethapudi</h2>
+                <p class="font-mono text-sm font-bold text-ink/70 mb-8 uppercase tracking-wider">Interactive Portfolio
+                </p>
+                <button id="start-boot-btn"
+                    class="border-4 border-ink bg-bgLight px-6 py-3 font-mono font-bold uppercase shadow-2d-sm hover:-translate-y-1 hover:shadow-2d transition-all text-lg cursor-hover"
+                    data-cursor-text="Execute">
+                    Execute System
+                </button>
+            </div>
+            <div class="terminal-text" id="boot-text" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 mix-blend-difference text-paper pointer-events-none">
+        <!-- FIXED: RB now links to home -->
+        <a href="#home"
+            class="font-display font-black text-2xl uppercase tracking-tighter cursor-hover hover:text-gray-300 transition-colors pointer-events-auto"
+            data-cursor-text="Home">R.B.</a>
+
+        <a href="mailto:rupeshbethapudi@gmail.com"
+            class="border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover pointer-events-auto mr-12 md:mr-24"
+            data-cursor-text="Email">Connect</a>
+    </nav>
+
+    <!-- Right Arc Navigation -->
+    <div class="fixed top-1/2 border-[2px] border-paper/20 rounded-full z-50 pointer-events-none mix-blend-difference text-paper"
+        style="width: 200vh; height: 200vh; right: -186.6vh; transform: translateY(-50%);">
+
+        <!-- Home: 24deg (Top) -->
+        <a href="#home"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(24deg) translateX(-100vh) rotate(-24deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Home</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- About: 16deg -->
+        <a href="#about"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(16deg) translateX(-100vh) rotate(-16deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">About</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- Work: 8deg -->
+        <a href="#projects"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(8deg) translateX(-100vh) rotate(-8deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Work</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- Experience: 0deg -->
+        <a href="#experience"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(0deg) translateX(-100vh) rotate(0deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Experience</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- Education: -8deg -->
+        <a href="#education"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(-8deg) translateX(-100vh) rotate(8deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Education</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- Involvement: -16deg -->
+        <a href="#involvement"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(-16deg) translateX(-100vh) rotate(16deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Involvement</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+
+        <!-- Certifications: -24deg (Bottom) -->
+        <a href="#certifications"
+            class="absolute top-1/2 left-1/2 flex items-center gap-4 group cursor-hover transition-colors pointer-events-auto"
+            style="transform: translate(-50%, -50%) rotate(-24deg) translateX(-100vh) rotate(24deg);">
+            <span class="font-mono text-sm font-bold uppercase tracking-widest">Certifications</span>
+            <div
+                class="w-4 h-4 rounded-full border-2 border-paper group-hover:bg-paper transition-colors shrink-0 shadow-2d-sm">
+            </div>
+        </a>
+    </div>
+
+    <div class="w-full pl-6 md:pl-12 pr-12 lg:pr-[300px] overflow-hidden">
+
+        <!-- Hero Section -->
+        <header id="home" class="min-h-screen flex items-center justify-center pt-20 border-b-4 border-ink relative">
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-96 h-96 -top-20 -left-20 animate-drift-1 hidden md:block"></div>
+            <div class="bg-diamond w-64 h-64 bottom-10 right-10 animate-drift-2 hidden md:block"></div>
+
+            <div class="w-full max-w-5xl relative z-10">
+
+                <!-- Stylized 2D Monitor Frame -->
+                <div
+                    class="border-4 border-ink bg-bgLight p-4 md:p-8 shadow-2d group relative z-10 bg-grid reveal-scale">
+
+                    <!-- Monitor Top Bar -->
+                    <div class="flex items-center gap-2 mb-6 border-b-4 border-ink pb-4">
+                        <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
+                        <div class="w-4 h-4 rounded-full border-2 border-ink bg-ink"></div>
+                        <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
+                        <div class="ml-auto font-mono text-xs font-bold uppercase tracking-widest">Terminal.exe</div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-8 lg:gap-12 items-center">
+                        <!-- Left Content -->
+                        <div class="flex-1 space-y-6 reveal-left" style="transition-delay: 200ms;">
+                            <h1
+                                class="text-5xl md:text-5xl lg:text-7xl font-display font-black uppercase leading-[0.9]">
+                                BETHAPUDI<br>
+                                <span class="text-stroke"></span>RUPESH
+                            </h1>
+                            <p
+                                class="font-mono text-lg font-medium max-w-md bg-paper p-4 border-2 border-ink border-dashed">
+                                Crafting intelligent systems & secure full-stack platforms. I am a AI / ML Engineer
+                                turning data into deployed intelligence.
+                            </p>
+                            <div class="flex gap-4 pt-4">
+                                <a href="https://www.linkedin.com/in/rupesh-bethapudi" target="_blank"
+                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-bgLight cursor-hover animate-float"
+                                    style="animation-delay: 0s;" data-cursor-text="Link">
+                                    <i class="fab fa-linkedin-in text-xl"></i>
+                                </a>
+                                <a href="https://github.com/RupeshO7a" target="_blank"
+                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-bgLight cursor-hover animate-float"
+                                    style="animation-delay: 0.5s;" data-cursor-text="Code">
+                                    <i class="fab fa-github text-xl"></i>
+                                </a>
+                                <a href="mailto:rupeshbethapudi@gmail.com"
+                                    class="w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d transition-all bg-ink text-paper cursor-hover animate-float"
+                                    style="animation-delay: 1s;" data-cursor-text="Email">
+                                    <i class="fas fa-envelope text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right Image Content -->
+                        <div class="w-full md:w-[280px] lg:w-[350px] shrink-0 flex justify-center md:justify-end reveal-right"
+                            style="transition-delay: 400ms;">
+                            <div class="relative w-full max-w-[300px] md:max-w-full aspect-[4/5] border-4 border-ink bg-paper shadow-2d overflow-hidden cursor-hover animate-float"
+                                style="animation-delay: 2s;" data-cursor-text="Rupesh">
+                                <!-- Grayscale to color transition image -->
+                                <img src="profile.jpg.jpeg" alt="Rupesh Bethapudi"
+                                    class="w-full h-full object-cover img-hover-color absolute inset-0 z-10"
+                                    onerror="this.src='https://placehold.co/400x500/f4f4f0/111111?text=Image+Not+Found'">
+
+                                <!-- Decorative background behind image -->
+                                <div
+                                    class="absolute inset-0 bg-ink/5 flex items-center justify-center font-mono text-6xl text-ink/10 rotate-45 z-0 pointer-events-none">
+                                    NULL
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Abstract Decorative Elements -->
+                <div
+                    class="absolute -z-10 -bottom-10 -right-10 w-40 h-40 border-4 border-ink rounded-full opacity-20 hidden md:block animate-float-circle">
+                </div>
+                <div
+                    class="absolute -z-10 -top-10 -left-10 w-32 h-32 bg-ink opacity-10 rotate-45 hidden md:block animate-float">
+                </div>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 border-b-4 border-ink relative">
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-80 h-80 top-40 -right-32 animate-drift-3"></div>
+            <div class="bg-diamond w-72 h-72 bottom-10 -left-20 animate-drift-1"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 reveal-scale">
+                    <div>
+                        <h2 class="text-5xl md:text-7xl font-display font-black uppercase leading-none mb-4">
+                            System<br>Overview.</h2>
+                        <div class="w-32 h-4 bg-ink border-2 border-ink"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <!-- Text Content (Left side) -->
+                    <div class="reveal-left lg:sticky lg:top-32">
+                        <div
+                            class="p-8 border-4 border-ink bg-bgLight shadow-2d text-lg md:text-xl font-medium leading-relaxed">
+                            <p class="mb-6">
+                                Data Science Intern with experience in machine learning and predictive modeling.
+                                Delivered a predictive earthquake model that raised precision by 30% and streamlined
+                                data preprocessing, cutting cleaning time by 30% through Python and MATLAB pipelines.
+                            </p>
+                            <p>
+                                Partnered with a development team to iterate testing cycles, translating complex seismic
+                                data into visual insights that boosted forecasting performance by 15%.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Skills Stack (Right side, dynamic blocks) -->
+                    <div class="flex flex-col gap-5">
+                        <!-- Skill 1 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 100ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                Programming</h4>
+                            <p class="text-base font-bold leading-relaxed">Python (Advanced), MySQL, R programming, C,
+                                MATLAB, Rust, SQL</p>
+                        </div>
+                        <!-- Skill 2 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 200ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                Data Analysis & Machine Learning</h4>
+                            <p class="text-base font-bold leading-relaxed">Pandas, NumPy, TensorFlow, Matplotlib,
+                                Seaborn, SciPy, Predictive Modeling/Regression, Scikit-Learn</p>
+                        </div>
+                        <!-- Skill 3 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 300ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                Data Analysis & Visualization Intelligence</h4>
+                            <p class="text-base font-bold leading-relaxed">PowerBI, NumPy, Pandas, Matplotlib, SciPy,
+                                Scikit-learn, TensorFlow, Tableau, Seaborn</p>
+                        </div>
+                        <!-- Skill 4 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 400ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                Full Stack</h4>
+                            <p class="text-base font-bold leading-relaxed">React, Node.js, JavaScript, HTML, CSS, UI/UX
+                                Design, Wireframing, Express.js, JWT (authentication), Flask (AI microservice)</p>
+                        </div>
+                        <!-- Skill 5 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 500ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                Blockchain & Cryptography</h4>
+                            <p class="text-base font-bold leading-relaxed">Ethereum, Solidity, Smart Contracts, Merkle
+                                Trees, bcrypt, ethers.js, Cryptographic Hashing, Web3 Integration</p>
+                        </div>
+                        <!-- Skill 6 -->
+                        <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
+                            style="transition-delay: 600ms;">
+                            <h4
+                                class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-3 text-ink/70">
+                                IDEs</h4>
+                            <p class="text-base font-bold leading-relaxed">Jupyter Notebook, Python IDLE, PyCharm,
+                                Dev-C++, MATLAB 2025b, Arduino IDE, AutoCAD, Autodesk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Projects Section -->
+        <section id="projects" class="py-24 md:py-32 border-b-4 border-ink relative">
+
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-[30rem] h-[30rem] -top-32 -left-32 animate-drift-2 opacity-5"></div>
+            <div class="bg-diamond w-96 h-96 bottom-20 -right-20 animate-drift-1"></div>
+
+            <!-- Header Container for Overlay Effect -->
+            <div class="relative w-full flex flex-col items-center justify-center mb-16 md:mb-20">
+                <!-- Massive Background 'WORK' Text -->
+                <div
+                    class="opacity-30 font-display font-black text-[6rem] sm:text-[8rem] md:text-[11rem] lg:text-[14rem] tracking-tight leading-none pointer-events-none text-ink select-none z-0 w-full text-center">
+                    WORK
+                </div>
+
+                <!-- Foreground 'Featured Blueprints' Subheading -->
+                <h2
+                    class="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black uppercase text-center reveal-scale leading-none -mt-8 sm:-mt-10 md:-mt-14 lg:-mt-16 bg-bgLight/60 backdrop-blur-sm px-6 py-2 rounded-xl">
+                    Featured<br>Blueprints
+                </h2>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12 min-h-[600px] relative z-10">
+
+                <!-- Sidebar Interactive Navigation -->
+                <div class="w-full lg:w-1/3 flex flex-col justify-center gap-6 border-l-4 lg:border-l-0 lg:border-r-4 border-ink pl-6 lg:pl-0 lg:pr-12"
+                    id="project-nav">
+
+                    <!-- Nav Items -->
+                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
+                        data-index="0">
+                        <span
+                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">01</span>
+                        <span
+                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">MedChain</span>
+                    </div>
+
+                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
+                        style="transition-delay: 150ms;" data-index="1">
+                        <span
+                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">02</span>
+                        <span
+                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">GRIPS</span>
+                    </div>
+
+                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
+                        style="transition-delay: 300ms;" data-index="2">
+                        <span
+                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">03</span>
+                        <span
+                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">PRISM</span>
+                    </div>
+                </div>
+
+                <!-- Main Dynamic Display Area -->
+                <div class="w-full lg:w-2/3 reveal-right">
+                    <div class="border-4 border-ink bg-bgLight shadow-2d-hover h-full flex flex-col relative overflow-hidden group cursor-hover"
+                        data-cursor-text="Explore">
+
+                        <!-- Decorative background grid -->
+                        <div class="absolute inset-0 opacity-20 pointer-events-none bg-grid"></div>
+
+                        <!-- Content Container (Updated via JS) -->
+                        <div id="project-display-content"
+                            class="p-8 md:p-12 flex flex-col h-full relative z-10 transition-all duration-500 ease-in-out opacity-100 translate-y-0">
+                            <div class="flex justify-center items-center h-full">
+                                <p class="font-mono text-xl font-bold uppercase animate-pulse">Hover over a project
+                                    number <i class="fas fa-arrow-left ml-2"></i></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-32 border-b-4 border-ink relative">
+
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-[25rem] h-[25rem] top-1/3 -left-40 animate-drift-3"></div>
+            <div class="bg-diamond w-80 h-80 bottom-20 -right-10 animate-drift-2"></div>
+
+            <!-- Header Container for Overlay Effect -->
+            <div class="relative w-full flex flex-col items-center justify-center mb-16 md:mb-20">
+                <div
+                    class="opacity-30 font-display font-black text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[9.5rem] tracking-tighter leading-none pointer-events-none text-ink select-none z-0 w-full text-center">
+                    EXPERIENCE
+                </div>
+                <h2
+                    class="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black uppercase text-center reveal-scale leading-none -mt-2 sm:-mt-4 md:-mt-6 lg:-mt-8 bg-paper/80 backdrop-blur-sm px-6 py-2 rounded-xl">
+                    Execution Log
+                </h2>
+            </div>
+
+            <div class="max-w-4xl mx-auto border-l-4 border-ink pl-8 space-y-16 relative z-10">
+                <!-- Experience Item -->
+                <div class="relative reveal-right">
+                    <div class="absolute -left-[42px] top-0 w-8 h-8 border-4 border-ink bg-paper rounded-full"></div>
+                    <div class="mb-2">
+                        <h3 class="text-3xl font-bold uppercase">Infosys Springboard</h3>
+                        <p
+                            class="font-mono text-lg font-bold bg-ink text-paper inline-block px-3 py-1 mt-2 hover:scale-105 transition-transform">
+                            Student Intern | Aug 2025 - Oct 2025</p>
+                    </div>
+                    <div
+                        class="border-4 border-ink p-6 bg-bgLight shadow-2d-sm mt-6 space-y-3 font-medium text-lg hover:-translate-y-1 transition-transform">
+                        <h4 class="font-bold text-xl mb-4 border-b-2 border-dashed border-ink pb-2">ImpactSenseAI –
+                            Earthquake Impact Prediction System</h4>
+                        <p class="font-mono text-sm font-bold uppercase text-ink/70 mb-4">Machine Learning & Predictive
+                            Analytics</p>
+                        <p>• Engineered an end-to-end earthquake impact prediction pipeline leveraging seismic and
+                            geospatial data to classify risk zones.</p>
+                        <p>• Processed and analyzed large-scale earthquake datasets using advanced feature engineering
+                            and data normalization.</p>
+                        <p>• Developed and optimized multiple machine learning models including Random Forest, Gradient
+                            Boosting, and Logistic Regression.</p>
+                        <p>• Implemented explainable AI techniques using feature importance analysis and SHAP-based
+                            interpretation.</p>
+                        <p>• Designed an interactive Streamlit dashboard enabling real-time risk assessment and impact
+                            visualization.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-32 border-b-4 border-ink relative">
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-72 h-72 -top-10 -right-10 animate-drift-1"></div>
+
+            <h2
+                class="text-4xl md:text-6xl font-display font-black uppercase mb-16 text-center reveal-scale relative z-10">
+                Education</h2>
+
+            <div class="max-w-4xl mx-auto border-l-4 border-ink pl-8 space-y-16 relative z-10">
+                <!-- Education Item -->
+                <div class="relative reveal-left">
+                    <div
+                        class="absolute -left-[42px] top-0 w-8 h-8 border-4 border-ink bg-bgLight rounded-none rotate-45 animate-float-circle">
+                    </div>
+                    <div class="mb-2">
+                        <h3 class="text-3xl font-bold uppercase">Kalasalingam Academy</h3>
+                        <p
+                            class="font-mono text-lg font-bold border-2 border-ink bg-bgLight inline-block px-3 py-1 mt-2">
+                            B.Tech in CSE (AI & ML) | Aug 2023 - Present</p>
+                    </div>
+                    <div
+                        class="border-4 border-ink p-6 bg-bgLight shadow-2d-sm mt-6 font-medium text-lg flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                        <i class="fas fa-graduation-cap text-3xl text-ink mt-1 animate-float"></i>
+                        <div>
+                            <p class="font-bold text-xl mb-2">Srivilliputhur, India</p>
+                            <p>Specialization in Artificial Intelligence and Machine Learning within Computer Science
+                                and Engineering.</p>
+                            <p class="mt-2 font-mono text-sm uppercase font-bold text-ink/70">Minor in UAV / Unmanned
+                                Aerial Vehicles</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Involvement Section -->
+        <section id="involvement" class="py-32 border-b-4 border-ink relative">
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-96 h-96 top-20 -left-32 animate-drift-2"></div>
+            <div class="bg-diamond w-64 h-64 bottom-20 -right-20 animate-drift-3"></div>
+
+            <h2
+                class="text-4xl md:text-6xl font-display font-black uppercase mb-16 text-center reveal-scale relative z-10">
+                Involvement</h2>
+
+            <div class="max-w-4xl mx-auto border-l-4 border-ink pl-8 space-y-16 relative z-10">
+
+                <!-- Involvement Item 1 -->
+                <div class="relative reveal-right">
+                    <div class="absolute -left-[42px] top-0 w-8 h-8 border-4 border-ink bg-ink rounded-full"></div>
+                    <div class="mb-2">
+                        <h3 class="text-3xl font-bold uppercase">Vice President</h3>
+                        <p class="font-mono text-lg font-bold bg-ink text-paper inline-block px-3 py-1 mt-2">E-NEXUS
+                            KARE | Aug 2025 - Present</p>
+                    </div>
+                    <div
+                        class="border-4 border-ink p-6 bg-bgLight shadow-2d-sm mt-6 space-y-3 font-medium text-lg hover:-translate-y-1 transition-transform">
+                        <p
+                            class="font-mono text-sm font-bold uppercase text-ink/70 mb-4 border-b-2 border-dashed border-ink pb-2">
+                            Srivilliputhur, India</p>
+                        <p>• Coordinated cross-functional teams of 15-20 members to run 12+ annual club events, boosting
+                            engagement by 40% and building partnerships.</p>
+                        <p>• Directed 5+ committees and coordinated 10+ projects, using leadership, communication, and
+                            project management skills.</p>
+                        <p>• Organized large events, including a startup competition with 125+ participants and a
+                            speaker series with 5 speakers for 500+ attendees.</p>
+                    </div>
+                </div>
+
+                <!-- Involvement Item 2 -->
+                <div class="relative reveal-right" style="transition-delay: 200ms;">
+                    <div class="absolute -left-[42px] top-0 w-8 h-8 border-4 border-ink bg-bgLight rounded-full"></div>
+                    <div class="mb-2">
+                        <h3 class="text-3xl font-bold uppercase">Member of Research</h3>
+                        <p class="font-mono text-lg font-bold border-2 border-ink bg-paper inline-block px-3 py-1 mt-2">
+                            ACM SIGBED | May 2025 - Present</p>
+                    </div>
+                    <div
+                        class="border-4 border-ink p-6 bg-bgLight shadow-2d-sm mt-6 space-y-3 font-medium text-lg hover:-translate-y-1 transition-transform">
+                        <p
+                            class="font-mono text-sm font-bold uppercase text-ink/70 mb-4 border-b-2 border-dashed border-ink pb-2">
+                            Competition Analysis • Srivilliputhur, India</p>
+                        <p>• Aggregated and structured data on 200+ technical competitions, creating a centralized
+                            resource for student participation.</p>
+                        <p>• Analyzed and benchmarked 20+ national and international competitions to identify high-value
+                            opportunities.</p>
+                        <p>• Delivered structured reports and presentations, enabling informed participation decisions
+                            across student groups.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="py-32 border-b-4 border-ink relative bg-grid">
+            <div class="absolute inset-0 bg-paper/80 -z-10"></div>
+
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-80 h-80 top-10 left-1/4 animate-drift-1 opacity-10"></div>
+
+            <h2
+                class="text-4xl md:text-6xl font-display font-black uppercase mb-16 text-center reveal-scale relative z-10">
+                Certifications</h2>
+
+            <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+
+                <!-- Certification Card 1 -->
+                <div class="border-4 border-ink bg-bgLight p-8 shadow-2d-hover hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full cursor-hover reveal-left"
+                    data-cursor-text="Verify">
+                    <div class="mb-6 flex justify-between items-start gap-4">
+                        <div class="p-3 border-2 border-ink bg-ink text-paper rounded-full shrink-0">
+                            <i class="fas fa-certificate text-2xl"></i>
+                        </div>
+                        <p class="font-mono text-sm font-bold border-2 border-ink px-2 py-1 bg-paper shrink-0">2025</p>
+                    </div>
+                    <h3 class="text-2xl font-black uppercase mb-2 leading-tight">OpenAI GPT-3 for Developers</h3>
+                    <p class="font-mono text-sm font-bold text-ink/70 mb-6 uppercase tracking-wider">Infosys Springboard
+                    </p>
+                    <p class="font-medium text-lg border-t-2 border-dashed border-ink pt-6 mt-auto">
+                        Learned GPT-3 architecture overview, prompt design ideas, and development of AI-powered
+                        applications using large language models.
+                    </p>
+                </div>
+
+                <!-- Certification Card 2 -->
+                <div class="border-4 border-ink bg-bgLight p-8 shadow-2d-hover hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full cursor-hover reveal-right"
+                    style="transition-delay: 200ms;" data-cursor-text="Verify">
+                    <div class="mb-6 flex justify-between items-start gap-4">
+                        <div class="p-3 border-2 border-ink bg-ink text-paper rounded-full shrink-0">
+                            <i class="fas fa-certificate text-2xl"></i>
+                        </div>
+                        <p class="font-mono text-sm font-bold border-2 border-ink px-2 py-1 bg-paper shrink-0">2025</p>
+                    </div>
+                    <h3 class="text-2xl font-black uppercase mb-2 leading-tight">Generative AI Unleashing</h3>
+                    <p class="font-mono text-sm font-bold text-ink/70 mb-6 uppercase tracking-wider">Infosys Springboard
+                    </p>
+                    <p class="font-medium text-lg border-t-2 border-dashed border-ink pt-6 mt-auto">
+                        Core fundamentals of Generative AI, LLM concepts, real-world AI use cases, and responsible AI
+                        practices.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
+            <!-- Floating Background Diamonds -->
+            <div class="bg-diamond w-64 h-64 -top-32 -right-10 animate-drift-2"></div>
+            <div class="bg-diamond w-48 h-48 bottom-0 -left-10 animate-drift-3"></div>
+
+            <h2 class="text-4xl font-display font-black uppercase mb-6 relative z-10 reveal-scale">Initiate Contact</h2>
+            <p class="font-mono text-lg mb-8 max-w-lg relative z-10 reveal" style="transition-delay: 100ms;">Available
+                for opportunities where algorithms meet human-centric design.</p>
+            <a href="mailto:rupeshbethapudi@gmail.com"
+                class="text-2xl md:text-4xl font-bold border-b-4 border-ink pb-2 hover:text-bgLight hover:bg-ink transition-colors cursor-hover px-4 relative z-10 reveal"
+                style="transition-delay: 200ms;" data-cursor-text="Send">
+                rupeshbethapudi@gmail.com
+            </a>
+            <p class="font-mono text-sm mt-16 font-bold uppercase relative z-10 reveal"
+                style="transition-delay: 300ms;">&copy; 2026 Rupesh Bethapudi. System Nominal.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

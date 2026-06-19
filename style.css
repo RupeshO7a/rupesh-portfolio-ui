@@ -13,16 +13,16 @@
 }
 
 html.dark {
-    /* Premium "Obsidian" Dark Mode */
-    --color-paper: #0a0a0a;
-    --color-ink: #ededed;
-    --color-bgLight: #171717;
+    /* Soft "Slate" Dark Mode (Easier on eyes) */
+    --color-paper: #1e293b;
+    --color-ink: #f8fafc;
+    --color-bgLight: #334155;
     
-    --color-paper-rgb: 10 10 10;
-    --color-ink-rgb: 237 237 237;
-    --color-bgLight-rgb: 23 23 23;
+    --color-paper-rgb: 30 41 59;
+    --color-ink-rgb: 248 250 252;
+    --color-bgLight-rgb: 51 65 85;
     
-    --color-ink-rgb-comma: 237, 237, 237;
+    --color-ink-rgb-comma: 248, 250, 252;
 }
 
 body {

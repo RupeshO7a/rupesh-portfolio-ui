@@ -13,16 +13,16 @@
 }
 
 html.dark {
-    /* Soft "Slate" Dark Mode (Easier on eyes) */
-    --color-paper: #1e293b;
-    --color-ink: #f8fafc;
-    --color-bgLight: #334155;
+    /* Professional "Graphite" Dark Mode */
+    --color-paper: #111111;
+    --color-ink: #eeeeee;
+    --color-bgLight: #1a1a1a;
     
-    --color-paper-rgb: 30 41 59;
-    --color-ink-rgb: 248 250 252;
-    --color-bgLight-rgb: 51 65 85;
+    --color-paper-rgb: 17 17 17;
+    --color-ink-rgb: 238 238 238;
+    --color-bgLight-rgb: 26 26 26;
     
-    --color-ink-rgb-comma: 248, 250, 252;
+    --color-ink-rgb-comma: 238, 238, 238;
 }
 
 body {

@@ -173,7 +173,7 @@
                         <div class="w-4 h-4 rounded-full border-2 border-ink bg-ink"></div>
                         <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
                         <div class="ml-auto flex items-center gap-4">
-                            <button class="terminal-trigger-btn border-2 border-ink bg-ink text-paper px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover hover:bg-paper hover:text-ink transition-colors" data-cursor-text="Terminal">
+                            <button class="terminal-trigger-btn border-2 border-ink bg-ink text-paper px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover hover:bg-paper hover:text-ink transition-colors" data-cursor-text="Terminal" onclick="window.toggleTerminal && window.toggleTerminal()">
                                 >_ Run Terminal
                             </button>
                             <span class="font-mono text-xs font-bold uppercase tracking-widest hidden md:inline-block">Terminal.exe</span>
@@ -626,20 +626,25 @@
                 style="transition-delay: 300ms;">&copy; 2026 Rupesh Bethapudi. System Nominal.</p>
         </footer>
 
-        <!-- Interactive Terminal Overlay (Hidden by Default) -->
-        <div id="terminal-overlay" class="fixed inset-0 bg-ink z-[1000000] hidden flex-col p-6 font-mono text-paper" style="background-color: #050505;">
-            <div class="flex justify-between items-center border-b-2 border-paper/30 pb-2 mb-4">
-                <span class="text-sm font-bold uppercase tracking-widest text-[#00ff00]">BETHAPUDI.OS_v2.0</span>
-                <button id="close-terminal-btn" class="border-2 border-paper/30 px-3 py-1 hover:bg-paper hover:text-ink transition-colors cursor-hover text-xs uppercase font-bold">[X] Exit</button>
-            </div>
-            <div id="terminal-output" class="flex-grow overflow-y-auto space-y-2 text-sm lg:text-base text-[#00ff00]">
-                <p>Establishing secure connection...</p>
-                <p>Welcome to the BETHAPUDI mainframe.</p>
-                <p>Type <span class="text-paper bg-ink px-1 border border-paper/30">help</span> to see available commands.</p>
-            </div>
-            <div class="flex items-center gap-2 mt-4 pt-4 border-t-2 border-paper/30">
-                <span class="text-[#00ff00] font-bold">root@rupesh:~#</span>
-                <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none text-[#00ff00] font-mono text-sm lg:text-base caret-[#00ff00]" autocomplete="off" spellcheck="false" autofocus>
+        <!-- Interactive Terminal Popup Overlay -->
+        <div id="terminal-overlay" class="fixed inset-0 z-[1000000] hidden items-center justify-center bg-bgLight/80 backdrop-blur-sm p-4 transition-opacity">
+            <div class="w-full max-w-3xl h-[60vh] flex flex-col bg-[#050505] border-4 border-ink shadow-2d overflow-hidden transform scale-100" id="terminal-window">
+                <!-- Terminal Header -->
+                <div class="flex justify-between items-center border-b-2 border-ink bg-paper p-2 px-4 cursor-default">
+                    <span class="text-xs font-bold uppercase tracking-widest text-ink">BETHAPUDI.OS_v2.0</span>
+                    <button id="close-terminal-btn" class="text-ink hover:text-red-600 transition-colors cursor-hover text-xs uppercase font-bold" onclick="window.toggleTerminal && window.toggleTerminal()">[X] CLOSE</button>
+                </div>
+                <!-- Terminal Content -->
+                <div id="terminal-output" class="flex-grow overflow-y-auto space-y-2 text-sm lg:text-base text-[#00ff00] p-4 font-mono font-bold tracking-tight">
+                    <p>Establishing secure connection...</p>
+                    <p>Welcome to the BETHAPUDI mainframe.</p>
+                    <p>Type <span class="text-paper bg-ink px-1 border border-ink">help</span> to see available commands.</p>
+                </div>
+                <!-- Terminal Input -->
+                <div class="flex items-center gap-2 border-t-2 border-ink p-4 bg-[#0a0a0a]">
+                    <span class="text-[#00ff00] font-bold font-mono">root@rupesh:~#</span>
+                    <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none text-[#00ff00] font-mono text-sm lg:text-base caret-[#00ff00] font-bold" autocomplete="off" spellcheck="false">
+                </div>
             </div>
         </div>
 
@@ -650,7 +655,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 
 </html>

@@ -549,6 +549,7 @@ window.addEventListener('load', () => {
         const terminalOutput = document.getElementById('terminal-output');
 
         function printToTerminal(text, isHtml = false) {
+            if(!terminalOutput) return;
             const p = document.createElement('p');
             if(isHtml) p.innerHTML = text;
             else p.innerText = text;
@@ -563,11 +564,11 @@ window.addEventListener('load', () => {
             switch(args[0]) {
                 case 'help':
                     printToTerminal('Available commands:');
-                    printToTerminal('  <span class="text-paper bg-ink px-1">help</span>    - Show this message', true);
-                    printToTerminal('  <span class="text-paper bg-ink px-1">whoami</span>  - Display user identity', true);
-                    printToTerminal('  <span class="text-paper bg-ink px-1">skills</span>  - List primary technical skills', true);
-                    printToTerminal('  <span class="text-paper bg-ink px-1">clear</span>   - Clear terminal output', true);
-                    printToTerminal('  <span class="text-paper bg-ink px-1">exit</span>    - Close terminal session', true);
+                    printToTerminal('  <span class="text-[#00ff00]">help</span>    - Show this message', true);
+                    printToTerminal('  <span class="text-[#00ff00]">whoami</span>  - Display user identity', true);
+                    printToTerminal('  <span class="text-[#00ff00]">skills</span>  - List primary technical skills', true);
+                    printToTerminal('  <span class="text-[#00ff00]">clear</span>   - Clear terminal output', true);
+                    printToTerminal('  <span class="text-[#00ff00]">exit</span>    - Close terminal session', true);
                     break;
                 case 'whoami':
                     printToTerminal('Rupesh Bethapudi - AI/ML Engineer & Full Stack Developer');
@@ -577,10 +578,10 @@ window.addEventListener('load', () => {
                     setTimeout(() => printToTerminal('=> Python, TensorFlow, React, Solidity, AWS, Docker'), 400);
                     break;
                 case 'clear':
-                    terminalOutput.innerHTML = '';
+                    if(terminalOutput) terminalOutput.innerHTML = '';
                     break;
                 case 'exit':
-                    closeTerminal();
+                    if(window.toggleTerminal) window.toggleTerminal();
                     break;
                 case '':
                     break;
@@ -589,45 +590,31 @@ window.addEventListener('load', () => {
             }
         }
 
-        function openTerminal() {
-            if(terminalOverlay) {
-                terminalOverlay.classList.remove('hidden');
-                terminalOverlay.classList.add('flex');
-                setTimeout(() => terminalInput.focus(), 100);
-            }
-        }
-
-        function closeTerminal() {
-            if(terminalOverlay) {
-                terminalOverlay.classList.add('hidden');
-                terminalOverlay.classList.remove('flex');
-            }
-        }
-
-        if(terminalOverlay) {
-            const toggleTerminal = () => {
-                if(terminalOverlay.classList.contains('hidden')) {
-                    openTerminal();
+        window.toggleTerminal = () => {
+            const overlay = document.getElementById('terminal-overlay');
+            if(overlay) {
+                if(overlay.classList.contains('hidden')) {
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+                    setTimeout(() => {
+                        const input = document.getElementById('terminal-input');
+                        if(input) input.focus();
+                    }, 100);
                 } else {
-                    closeTerminal();
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
                 }
-            };
+            }
+        };
 
-            document.addEventListener('keydown', (e) => {
-                if(e.key === '`' || e.key === '~') {
-                    e.preventDefault();
-                    toggleTerminal();
-                }
-            });
+        document.addEventListener('keydown', (e) => {
+            if(e.key === '`' || e.key === '~') {
+                e.preventDefault();
+                if(window.toggleTerminal) window.toggleTerminal();
+            }
+        });
 
-            closeTerminalBtn.addEventListener('click', closeTerminal);
-            
-            document.addEventListener('click', (e) => {
-                if(e.target.closest('.terminal-trigger-btn')) {
-                    toggleTerminal();
-                }
-            });
-
+        if(terminalInput) {
             terminalInput.addEventListener('keydown', (e) => {
                 if(e.key === 'Enter') {
                     handleCommand(terminalInput.value);

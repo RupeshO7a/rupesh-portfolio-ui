@@ -172,7 +172,12 @@
                         <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
                         <div class="w-4 h-4 rounded-full border-2 border-ink bg-ink"></div>
                         <div class="w-4 h-4 rounded-full border-2 border-ink bg-bgLight"></div>
-                        <div class="ml-auto font-mono text-xs font-bold uppercase tracking-widest">Terminal.exe</div>
+                        <div class="ml-auto flex items-center gap-4">
+                            <button class="terminal-trigger-btn border-2 border-ink bg-ink text-paper px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover hover:bg-paper hover:text-ink transition-colors" data-cursor-text="Terminal">
+                                >_ Run Terminal
+                            </button>
+                            <span class="font-mono text-xs font-bold uppercase tracking-widest hidden md:inline-block">Terminal.exe</span>
+                        </div>
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-8 lg:gap-12 items-center">
@@ -188,9 +193,6 @@
                                 Crafting intelligent systems & secure full-stack platforms. I am a AI / ML Engineer turning data into deployed intelligence.
                             </p>
                             <div class="flex gap-4 pt-4 flex-wrap">
-                                <button class="terminal-trigger-btn magnetic-btn flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-ink text-paper cursor-hover animate-float px-6 py-2 font-mono text-sm md:text-base font-bold uppercase" style="animation-delay: 0s;" data-cursor-text="Hack">
-                                    <i class="fas fa-terminal mr-2 pointer-events-none"></i> Run Terminal
-                                </button>
                                 <a href="Bethapudi_Rupesh_Resume.pdf" download
                                     class="magnetic-btn w-12 h-12 md:w-14 md:h-14 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-paper text-ink cursor-hover animate-float"
                                     style="animation-delay: 0.2s;" data-cursor-text="PDF">
@@ -648,7 +650,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 
 </html>

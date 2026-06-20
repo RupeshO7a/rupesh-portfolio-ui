@@ -254,8 +254,8 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                    <!-- Text Content (Left side) -->
-                    <div class="reveal-left lg:sticky lg:top-32">
+                    <!-- Text Content & Matrix (Left side) -->
+                    <div class="flex flex-col gap-8 reveal-left lg:sticky lg:top-32">
                         <div
                             class="p-8 border-4 border-ink bg-bgLight shadow-2d text-lg md:text-xl font-medium leading-relaxed">
                             <p class="mb-6">
@@ -268,18 +268,18 @@
                                 data into visual insights that boosted forecasting performance by 15%.
                             </p>
                         </div>
-                    </div>
-
-                    <!-- Skills Stack & Chart (Right side, dynamic blocks) -->
-                    <div class="flex flex-col gap-5">
                         
                         <!-- Radar Chart Canvas -->
-                        <div class="border-4 border-ink p-4 bg-paper shadow-2d-hover hover:-translate-y-1 transition-transform reveal-right" style="transition-delay: 50ms;">
+                        <div class="border-4 border-ink p-4 bg-paper shadow-2d-hover hover:-translate-y-1 transition-transform reveal-left" style="transition-delay: 50ms;">
                             <h4 class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-4 text-ink/70">Competency Matrix</h4>
-                            <div class="w-full aspect-square md:aspect-video lg:aspect-square relative flex items-center justify-center">
+                            <div class="w-full aspect-square relative flex items-center justify-center">
                                 <canvas id="skillsChart"></canvas>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Skills Stack (Right side, dynamic blocks) -->
+                    <div class="flex flex-col gap-5">
 
                         <!-- Skill 1 -->
                         <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"

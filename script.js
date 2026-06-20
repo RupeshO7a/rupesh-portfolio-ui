@@ -417,6 +417,22 @@ window.addEventListener('load', () => {
             renderProjectNav();
         }
 
+        // Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-ink', 'text-paper', 'active');
+                    b.classList.add('bg-paper', 'text-ink');
+                });
+                e.target.classList.remove('bg-paper', 'text-ink');
+                e.target.classList.add('bg-ink', 'text-paper', 'active');
+                
+                currentCategory = e.target.getAttribute('data-filter');
+                renderProjectNav();
+            });
+        });
+
         // Magnetic Buttons
         const magneticBtns = document.querySelectorAll('.magnetic-btn');
         magneticBtns.forEach(btn => {

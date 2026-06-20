@@ -11,6 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="tailwind.config.js"></script>
 
@@ -61,12 +62,15 @@
             class="font-display font-black text-2xl uppercase tracking-tighter cursor-hover hover:text-gray-300 transition-colors pointer-events-auto"
             data-cursor-text="Home">R.B.</a>
 
-        <div class="flex items-center gap-6 pointer-events-auto mr-12 md:mr-24">
+        <div class="flex items-center gap-4 md:gap-6 pointer-events-auto mr-12 md:mr-24">
             <button id="theme-toggle" class="font-mono text-xl cursor-hover hover:text-gray-300 transition-colors" data-cursor-text="Theme">
                 [ ☾ ]
             </button>
+            <a href="Bethapudi_Rupesh_Resume.pdf" download
+                class="hidden md:inline-block border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover"
+                data-cursor-text="Download">Resume</a>
             <a href="mailto:rupeshbethapudi@gmail.com"
-                class="border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover"
+                class="border-2 border-paper px-4 py-2 font-mono text-xs font-bold uppercase hover:bg-paper hover:text-ink transition-colors cursor-hover bg-ink"
                 data-cursor-text="Email">Connect</a>
         </div>
     </nav>
@@ -181,19 +185,24 @@
                                 Crafting intelligent systems & secure full-stack platforms. I am a AI / ML Engineer turning data into deployed intelligence.
                             </p>
                             <div class="flex gap-4 pt-4">
+                                <a href="Bethapudi_Rupesh_Resume.pdf" download
+                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-ink text-paper cursor-hover animate-float"
+                                    style="animation-delay: 0s;" data-cursor-text="PDF">
+                                    <i class="fas fa-file-pdf text-xl pointer-events-none"></i>
+                                </a>
                                 <a href="https://www.linkedin.com/in/rupesh-bethapudi" target="_blank"
                                     class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-bgLight cursor-hover animate-float"
-                                    style="animation-delay: 0s;" data-cursor-text="Link">
+                                    style="animation-delay: 0.2s;" data-cursor-text="Link">
                                     <i class="fab fa-linkedin-in text-xl pointer-events-none"></i>
                                 </a>
                                 <a href="https://github.com/RupeshO7a" target="_blank"
                                     class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-bgLight cursor-hover animate-float"
-                                    style="animation-delay: 0.5s;" data-cursor-text="Code">
+                                    style="animation-delay: 0.4s;" data-cursor-text="Code">
                                     <i class="fab fa-github text-xl pointer-events-none"></i>
                                 </a>
                                 <a href="mailto:rupeshbethapudi@gmail.com"
-                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-ink text-paper cursor-hover animate-float"
-                                    style="animation-delay: 1s;" data-cursor-text="Email">
+                                    class="magnetic-btn w-12 h-12 flex items-center justify-center border-4 border-ink shadow-2d-sm hover:translate-x-1 hover:-translate-y-1 hover:shadow-2d bg-bgLight cursor-hover animate-float"
+                                    style="animation-delay: 0.6s;" data-cursor-text="Email">
                                     <i class="fas fa-envelope text-xl pointer-events-none"></i>
                                 </a>
                             </div>
@@ -261,8 +270,17 @@
                         </div>
                     </div>
 
-                    <!-- Skills Stack (Right side, dynamic blocks) -->
+                    <!-- Skills Stack & Chart (Right side, dynamic blocks) -->
                     <div class="flex flex-col gap-5">
+                        
+                        <!-- Radar Chart Canvas -->
+                        <div class="border-4 border-ink p-4 bg-paper shadow-2d-hover hover:-translate-y-1 transition-transform reveal-right" style="transition-delay: 50ms;">
+                            <h4 class="font-mono text-sm font-bold uppercase border-b-2 border-ink pb-2 mb-4 text-ink/70">Competency Matrix</h4>
+                            <div class="w-full aspect-square md:aspect-video lg:aspect-square relative flex items-center justify-center">
+                                <canvas id="skillsChart"></canvas>
+                            </div>
+                        </div>
+
                         <!-- Skill 1 -->
                         <div class="border-2 border-ink p-5 bg-paper shadow-2d-sm hover:-translate-y-1 transition-transform reveal-right"
                             style="transition-delay: 100ms;">
@@ -347,32 +365,18 @@
             <div class="flex flex-col lg:flex-row gap-12 min-h-[600px] relative z-10">
 
                 <!-- Sidebar Interactive Navigation -->
-                <div class="w-full lg:w-1/3 flex flex-col justify-center gap-6 border-l-4 lg:border-l-0 lg:border-r-4 border-ink pl-6 lg:pl-0 lg:pr-12"
-                    id="project-nav">
-
-                    <!-- Nav Items -->
-                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
-                        data-index="0">
-                        <span
-                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">01</span>
-                        <span
-                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">MedChain</span>
+                <div class="w-full lg:w-1/3 flex flex-col justify-start gap-6 border-l-4 lg:border-l-0 lg:border-r-4 border-ink pl-6 lg:pl-0 lg:pr-12">
+                    
+                    <!-- Project Filters -->
+                    <div class="flex flex-wrap gap-2 mb-6 reveal-scale" id="project-filters">
+                        <button class="filter-btn active border-2 border-ink bg-ink text-paper px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover" data-filter="All">All</button>
+                        <button class="filter-btn border-2 border-ink bg-paper text-ink px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover" data-filter="AI/ML">AI/ML</button>
+                        <button class="filter-btn border-2 border-ink bg-paper text-ink px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover" data-filter="Blockchain">Web3</button>
+                        <button class="filter-btn border-2 border-ink bg-paper text-ink px-3 py-1 font-mono text-xs font-bold uppercase shadow-2d-sm cursor-hover" data-filter="Full Stack">Full Stack</button>
                     </div>
 
-                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
-                        style="transition-delay: 150ms;" data-index="1">
-                        <span
-                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">02</span>
-                        <span
-                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">GRIPS</span>
-                    </div>
-
-                    <div class="project-nav-item group flex items-center gap-6 cursor-pointer reveal-left"
-                        style="transition-delay: 300ms;" data-index="2">
-                        <span
-                            class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">03</span>
-                        <span
-                            class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">PRISM</span>
+                    <div id="project-nav-container" class="flex flex-col gap-6">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
@@ -613,6 +617,23 @@
             <p class="font-mono text-sm mt-16 font-bold uppercase relative z-10 reveal"
                 style="transition-delay: 300ms;">&copy; 2026 Rupesh Bethapudi. System Nominal.</p>
         </footer>
+
+        <!-- Interactive Terminal Overlay (Hidden by Default) -->
+        <div id="terminal-overlay" class="fixed inset-0 bg-ink z-[1000000] hidden flex-col p-6 font-mono text-paper" style="background-color: #050505;">
+            <div class="flex justify-between items-center border-b-2 border-paper/30 pb-2 mb-4">
+                <span class="text-sm font-bold uppercase tracking-widest text-[#00ff00]">BETHAPUDI.OS_v2.0</span>
+                <button id="close-terminal-btn" class="border-2 border-paper/30 px-3 py-1 hover:bg-paper hover:text-ink transition-colors cursor-hover text-xs uppercase font-bold">[X] Exit</button>
+            </div>
+            <div id="terminal-output" class="flex-grow overflow-y-auto space-y-2 text-sm lg:text-base text-[#00ff00]">
+                <p>Establishing secure connection...</p>
+                <p>Welcome to the BETHAPUDI mainframe.</p>
+                <p>Type <span class="text-paper bg-ink px-1 border border-paper/30">help</span> to see available commands.</p>
+            </div>
+            <div class="flex items-center gap-2 mt-4 pt-4 border-t-2 border-paper/30">
+                <span class="text-[#00ff00] font-bold">root@rupesh:~#</span>
+                <input type="text" id="terminal-input" class="flex-grow bg-transparent border-none outline-none text-[#00ff00] font-mono text-sm lg:text-base caret-[#00ff00]" autocomplete="off" spellcheck="false" autofocus>
+            </div>
+        </div>
 
         <!-- Back to Top Button -->
         <button id="back-to-top" class="border-4 border-ink bg-bgLight px-4 py-2 font-mono font-bold uppercase shadow-2d-sm hover:shadow-2d cursor-hover" data-cursor-text="Top">

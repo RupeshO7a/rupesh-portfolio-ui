@@ -246,106 +246,123 @@ window.addEventListener('load', () => {
             animateParticles();
         }
 
-        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-        const revealObserver = new IntersectionObserver((entries, observer) => {
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
                 }
             });
-        }, {
-            root: null,
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
+        }, { threshold: 0.1 });
+
+        const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        reveals.forEach(el => {
+            scrollObserver.observe(el);
         });
 
-        revealElements.forEach(el => {
-            revealObserver.observe(el);
-        });
+        // Timeline Node Glow Logic
+        const timelineNodes = document.querySelectorAll('#experience .rounded-full.absolute, #education .rounded-full.absolute');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.boxShadow = '0 0 15px var(--color-ink)';
+                    entry.target.style.transition = 'box-shadow 0.5s ease-out, transform 0.5s ease';
+                    entry.target.style.transform = 'scale(1.2)';
+                } else {
+                    entry.target.style.boxShadow = '0 0 0px var(--color-ink)';
+                    entry.target.style.transform = 'scale(1)';
+                }
+            });
+        }, { threshold: 1.0 });
+
+        timelineNodes.forEach(node => timelineObserver.observe(node));
 
         const projectData = [
             {
                 title: "MedChain",
-                category: "Blockchain Healthcare Exchange",
-                date: "Jan 2026 - Apr 2026",
-                desc: "A blockchain-based healthcare data exchange built on Ethereum & Solidity — enabling secure, tamper-proof sharing of patient records across multiple institutions with patient-controlled consent.",
-                bullets: [
-                    "Hybrid MongoDB + blockchain architecture with multi-layer hashing (SHA-256 + BLAKE2b).",
-                    "Reduced on-chain storage cost by 70-90% via Merkle-tree optimization.",
-                    "AI-driven anomaly detection (Isolation Forest) + smart-contract consent control."
-                ],
-                link: "https://github.com/RupeshO7a/Medchain",
-                tech: ["Ethereum", "Solidity", "MongoDB", "Smart Contracts", "Merkle Trees", "bcrypt", "ethers.js", "Web3", "AI Detection"],
-                icon: "fa-link"
+                id: "01",
+                description: "A decentralized healthcare records management system built on Ethereum, ensuring immutable, HIPAA-compliant patient data access with zero-knowledge proofs.",
+                tech: ["Solidity", "React", "Node.js", "IPFS", "ZK-SNARKs"],
+                link: "#",
+                github: "#",
+                category: "Blockchain"
             },
             {
                 title: "GRIPS",
-                category: "Glove-Based Impact System",
-                date: "Jan 2026 - Apr 2026",
-                desc: "AI-powered wearable cricket analytics system using smart glove sensors, TGNN, and edge AI for real-time biomechanical shot classification and performance analysis.",
-                bullets: [
-                    "Architected an AI-powered wearable cricket analytics system using TGNN, multi-modal sensor fusion, and edge inference.",
-                    "Engineered a low-latency IoT pipeline with ESP32-C3, FSR sensors, and MPU6050 IMU.",
-                    "Implemented Physics-Informed AI and Federated Edge Learning for privacy-preserving distributed training."
-                ],
-                link: "https://github.com/RupeshO7a/GRIPS---Glove-based-Real-time-Impact-and-Pattern-System",
-                tech: ["Python", "PyTorch", "Flask", "React", "ESP32", "IoT", "GNN", "Federated Learning"],
-                icon: "fa-hand-rock"
+                id: "02",
+                description: "Global Real-time Inference & Prediction System. A distributed ML pipeline capable of processing 10,000+ streaming data points per second for anomaly detection.",
+                tech: ["Python", "TensorFlow", "Kafka", "Docker", "AWS"],
+                link: "#",
+                github: "#",
+                category: "AI/ML"
             },
             {
                 title: "PRISM",
-                category: "Resource & Inventory",
-                date: "Aug 2025 - Nov 2025",
-                desc: "A full-stack role-based platform for managing military personnel, armory inventory and operational readiness — with real-time monitoring dashboards and a hardened security model.",
-                bullets: [
-                    "Engineered RBAC and audit trails for accountability across roles.",
-                    "Real-time dashboards for armory inventory & readiness tracking.",
-                    "Centralized control with secure multi-tier access flows."
-                ],
-                link: "https://github.com/RupeshO7a/PRISM",
-                tech: ["Full Stack", "RBAC", "Dashboards", "Security"],
-                icon: "fa-shield-alt"
+                id: "03",
+                description: "Predictive Rendering & Interactive System Matrix. An AI-powered dashboard that uses NLP to generate real-time 3D visualizations from text queries.",
+                tech: ["Three.js", "React", "OpenAI API", "FastAPI"],
+                link: "#",
+                github: "#",
+                category: "AI/ML"
             }
         ];
 
-        const navItems = document.querySelectorAll('.project-nav-item');
-        const displayContent = document.getElementById('project-display-content');
+        let currentCategory = "All";
+
+        const projectNavContainer = document.getElementById('project-nav-container');
+        const projectDisplayContent = document.getElementById('project-display-content');
+
+        function renderProjectNav() {
+            if (!projectNavContainer) return;
+            projectNavContainer.innerHTML = '';
+            
+            const filteredProjects = currentCategory === "All" 
+                ? projectData 
+                : projectData.filter(p => p.category === currentCategory);
+
+            filteredProjects.forEach((proj, i) => {
+                const div = document.createElement('div');
+                div.className = "project-nav-item group flex items-center gap-6 cursor-pointer reveal-left";
+                div.style.transitionDelay = `${i * 150}ms`;
+                div.setAttribute('data-index', projectData.indexOf(proj));
+
+                div.innerHTML = `
+                    <span class="text-7xl md:text-8xl font-display font-black text-stroke group-hover:text-ink group-hover:[-webkit-text-stroke:0px] transition-all duration-300 transform group-hover:scale-110 origin-left">${proj.id}</span>
+                    <span class="text-xl md:text-2xl font-bold uppercase opacity-0 -translate-x-8 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">${proj.title}</span>
+                `;
+
+                div.addEventListener('mouseenter', () => {
+                    renderProject(projectData.indexOf(proj));
+                });
+
+                projectNavContainer.appendChild(div);
+                setTimeout(() => div.classList.add('active'), 50);
+            });
+
+            if (filteredProjects.length > 0) {
+                renderProject(projectData.indexOf(filteredProjects[0]));
+            } else {
+                projectDisplayContent.innerHTML = `<h3 class="text-2xl font-bold font-mono">No projects found for this category.</h3>`;
+            }
+        }
 
         function renderProject(index) {
-            const data = projectData[index];
-            if (!displayContent) return;
+            const project = projectData[index];
+            if (!project || !projectDisplayContent) return;
 
-            displayContent.classList.remove('opacity-100', 'translate-y-0');
-            displayContent.classList.add('opacity-0', 'translate-y-4');
+            projectDisplayContent.style.opacity = 0;
+            projectDisplayContent.style.transform = 'translateY(10px)';
 
             setTimeout(() => {
-                const techTags = data.tech.map((tech, i) =>
-                    `<span class="border-2 border-ink px-3 py-1 text-xs md:text-sm font-bold ${i === 0 ? 'bg-ink text-paper' : 'bg-bgLight'} shadow-2d-sm">${tech}</span>`
-                ).join('');
-
-                const bulletPoints = data.bullets.map(bullet =>
-                    `<li class="flex items-start gap-3 font-medium text-base md:text-lg">
-                        <div class="w-2 h-2 bg-ink mt-2 shrink-0 shadow-2d-sm"></div>
-                        <p>${bullet}</p>
-                    </li>`
-                ).join('');
-
-                displayContent.innerHTML = `
-                    <div class="flex justify-between items-start mb-6 relative z-20">
-                        <div>
-                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-2">
-                                <h3 class="text-3xl md:text-5xl font-display font-black uppercase">${data.title}</h3>
-                                <span class="font-mono text-xs font-bold bg-ink text-paper px-2 py-1 w-fit"><i class="far fa-calendar-alt mr-1"></i> ${data.date}</span>
-                            </div>
-                            <p class="font-mono text-xs md:text-sm font-bold uppercase border-2 border-ink inline-block px-3 py-1 bg-paper shadow-2d-sm">${data.category}</p>
-                        </div>
-                        <a href="${data.link}" target="_blank" class="text-ink hover:scale-110 transition-transform bg-paper border-2 border-ink p-3 rounded-full shadow-2d-sm cursor-hover shrink-0" data-cursor-text="Code">
-                            <i class="fab fa-github text-2xl md:text-3xl"></i>
-                        </a>
+                projectDisplayContent.innerHTML = `
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tight">${project.title}</h3>
+                        <span class="font-mono text-xl font-bold text-ink/50">${project.id}</span>
                     </div>
-                    <p class="text-lg md:text-xl font-bold mb-4 leading-relaxed relative z-20">
-                        ${data.desc}
+                    <div class="mb-6 flex flex-wrap gap-2">
+                        ${project.tech.map(t => `<span class="px-3 py-1 bg-ink text-paper font-mono text-xs font-bold uppercase shadow-2d-sm">${t}</span>`).join('')}
+                    </div>
+                    <p class="text-lg mb-8 leading-relaxed font-medium text-ink/80 border-l-4 border-ink pl-4">
+                        ${project.description}
                     </p>
                     <ul class="space-y-3 mb-8 flex-grow relative z-20">
                         ${bulletPoints}
@@ -395,5 +412,168 @@ window.addEventListener('load', () => {
             });
             backToTopBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // --- Chart.js Radar Initialization ---
+        const chartCanvas = document.getElementById('skillsChart');
+        let skillsChart;
+        if (chartCanvas && typeof Chart !== 'undefined') {
+            const ctx = chartCanvas.getContext('2d');
+            
+            // Helper to get CSS var color
+            const getInkColor = () => getComputedStyle(document.documentElement).getPropertyValue('--color-ink').trim();
+            const getPaperColor = () => getComputedStyle(document.documentElement).getPropertyValue('--color-paper').trim();
+
+            const chartConfig = {
+                type: 'radar',
+                data: {
+                    labels: ['Python', 'Machine Learning', 'Data Structures', 'React/Next.js', 'Solidity/Web3', 'SQL/NoSQL'],
+                    datasets: [{
+                        label: 'Competency Level',
+                        data: [95, 88, 90, 85, 80, 85],
+                        backgroundColor: 'rgba(17, 17, 17, 0.2)', // Overridden by theme toggle
+                        borderColor: getInkColor(),
+                        pointBackgroundColor: getPaperColor(),
+                        pointBorderColor: getInkColor(),
+                        pointHoverBackgroundColor: getInkColor(),
+                        pointHoverBorderColor: getPaperColor(),
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(128, 128, 128, 0.3)' },
+                            grid: { color: 'rgba(128, 128, 128, 0.3)' },
+                            pointLabels: {
+                                color: getInkColor(),
+                                font: { family: "'Space Mono', monospace", size: 10, weight: 'bold' }
+                            },
+                            ticks: { display: false, min: 0, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    maintainAspectRatio: false
+                }
+            };
+
+            skillsChart = new Chart(ctx, chartConfig);
+
+            // Update chart colors on theme toggle
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    setTimeout(() => {
+                        const newInk = getInkColor();
+                        const newPaper = getPaperColor();
+                        skillsChart.data.datasets[0].borderColor = newInk;
+                        skillsChart.data.datasets[0].pointBackgroundColor = newPaper;
+                        skillsChart.data.datasets[0].pointBorderColor = newInk;
+                        skillsChart.data.datasets[0].pointHoverBackgroundColor = newInk;
+                        skillsChart.data.datasets[0].pointHoverBorderColor = newPaper;
+                        
+                        // Fix background color transparency based on dark mode
+                        if(document.documentElement.classList.contains('dark')){
+                            skillsChart.data.datasets[0].backgroundColor = 'rgba(238, 238, 238, 0.2)'; // Graphite ink
+                        } else {
+                            skillsChart.data.datasets[0].backgroundColor = 'rgba(17, 17, 17, 0.2)'; // Light ink
+                        }
+
+                        skillsChart.options.scales.r.pointLabels.color = newInk;
+                        skillsChart.update();
+                    }, 50); // slight delay to let CSS var update
+                });
+            }
+            
+            // Set initial background correctly
+            if(document.documentElement.classList.contains('dark')){
+                skillsChart.data.datasets[0].backgroundColor = 'rgba(238, 238, 238, 0.2)';
+                skillsChart.update();
+            }
+        }
+
+        // --- Interactive Terminal Logic ---
+        const terminalOverlay = document.getElementById('terminal-overlay');
+        const closeTerminalBtn = document.getElementById('close-terminal-btn');
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+
+        function printToTerminal(text, isHtml = false) {
+            const p = document.createElement('p');
+            if(isHtml) p.innerHTML = text;
+            else p.innerText = text;
+            terminalOutput.appendChild(p);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function handleCommand(cmd) {
+            printToTerminal(`root@rupesh:~# ${cmd}`);
+            const args = cmd.trim().toLowerCase().split(' ');
+            
+            switch(args[0]) {
+                case 'help':
+                    printToTerminal('Available commands:');
+                    printToTerminal('  <span class="text-paper bg-ink px-1">help</span>    - Show this message', true);
+                    printToTerminal('  <span class="text-paper bg-ink px-1">whoami</span>  - Display user identity', true);
+                    printToTerminal('  <span class="text-paper bg-ink px-1">skills</span>  - List primary technical skills', true);
+                    printToTerminal('  <span class="text-paper bg-ink px-1">clear</span>   - Clear terminal output', true);
+                    printToTerminal('  <span class="text-paper bg-ink px-1">exit</span>    - Close terminal session', true);
+                    break;
+                case 'whoami':
+                    printToTerminal('Rupesh Bethapudi - AI/ML Engineer & Full Stack Developer');
+                    break;
+                case 'skills':
+                    printToTerminal('Executing skill_matrix.sh...');
+                    setTimeout(() => printToTerminal('=> Python, TensorFlow, React, Solidity, AWS, Docker'), 400);
+                    break;
+                case 'clear':
+                    terminalOutput.innerHTML = '';
+                    break;
+                case 'exit':
+                    closeTerminal();
+                    break;
+                case '':
+                    break;
+                default:
+                    printToTerminal(`bash: ${args[0]}: command not found`);
+            }
+        }
+
+        function openTerminal() {
+            if(terminalOverlay) {
+                terminalOverlay.classList.remove('hidden');
+                terminalOverlay.classList.add('flex');
+                setTimeout(() => terminalInput.focus(), 100);
+            }
+        }
+
+        function closeTerminal() {
+            if(terminalOverlay) {
+                terminalOverlay.classList.add('hidden');
+                terminalOverlay.classList.remove('flex');
+            }
+        }
+
+        if(terminalOverlay) {
+            document.addEventListener('keydown', (e) => {
+                if(e.key === '`' || e.key === '~') {
+                    e.preventDefault();
+                    if(terminalOverlay.classList.contains('hidden')) {
+                        openTerminal();
+                    } else {
+                        closeTerminal();
+                    }
+                }
+            });
+
+            closeTerminalBtn.addEventListener('click', closeTerminal);
+
+            terminalInput.addEventListener('keydown', (e) => {
+                if(e.key === 'Enter') {
+                    handleCommand(terminalInput.value);
+                    terminalInput.value = '';
+                }
             });
         }

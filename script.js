@@ -278,29 +278,50 @@ window.addEventListener('load', () => {
             {
                 title: "MedChain",
                 id: "01",
-                description: "A decentralized healthcare records management system built on Ethereum, ensuring immutable, HIPAA-compliant patient data access with zero-knowledge proofs.",
-                tech: ["Solidity", "React", "Node.js", "IPFS", "ZK-SNARKs"],
-                link: "#",
-                github: "#",
-                category: "Blockchain"
+                filterCategory: "Blockchain",
+                category: "Blockchain Healthcare Exchange",
+                date: "Jan 2026 - Apr 2026",
+                desc: "A blockchain-based healthcare data exchange built on Ethereum & Solidity — enabling secure, tamper-proof sharing of patient records across multiple institutions with patient-controlled consent.",
+                bullets: [
+                    "Hybrid MongoDB + blockchain architecture with multi-layer hashing (SHA-256 + BLAKE2b).",
+                    "Reduced on-chain storage cost by 70-90% via Merkle-tree optimization.",
+                    "AI-driven anomaly detection (Isolation Forest) + smart-contract consent control."
+                ],
+                link: "https://github.com/RupeshO7a/Medchain",
+                tech: ["Ethereum", "Solidity", "MongoDB", "Smart Contracts", "Merkle Trees", "bcrypt", "ethers.js", "Web3", "AI Detection"],
+                icon: "fa-link"
             },
             {
                 title: "GRIPS",
                 id: "02",
-                description: "Global Real-time Inference & Prediction System. A distributed ML pipeline capable of processing 10,000+ streaming data points per second for anomaly detection.",
-                tech: ["Python", "TensorFlow", "Kafka", "Docker", "AWS"],
-                link: "#",
-                github: "#",
-                category: "AI/ML"
+                filterCategory: "AI/ML",
+                category: "Glove-Based Impact System",
+                date: "Jan 2026 - Apr 2026",
+                desc: "AI-powered wearable cricket analytics system using smart glove sensors, TGNN, and edge AI for real-time biomechanical shot classification and performance analysis.",
+                bullets: [
+                    "Architected an AI-powered wearable cricket analytics system using TGNN, multi-modal sensor fusion, and edge inference.",
+                    "Engineered a low-latency IoT pipeline with ESP32-C3, FSR sensors, and MPU6050 IMU.",
+                    "Implemented Physics-Informed AI and Federated Edge Learning for privacy-preserving distributed training."
+                ],
+                link: "https://github.com/RupeshO7a/GRIPS---Glove-based-Real-time-Impact-and-Pattern-System",
+                tech: ["Python", "PyTorch", "Flask", "React", "ESP32", "IoT", "GNN", "Federated Learning"],
+                icon: "fa-hand-rock"
             },
             {
                 title: "PRISM",
                 id: "03",
-                description: "Predictive Rendering & Interactive System Matrix. An AI-powered dashboard that uses NLP to generate real-time 3D visualizations from text queries.",
-                tech: ["Three.js", "React", "OpenAI API", "FastAPI"],
-                link: "#",
-                github: "#",
-                category: "AI/ML"
+                filterCategory: "AI/ML",
+                category: "Resource & Inventory",
+                date: "Aug 2025 - Nov 2025",
+                desc: "A full-stack role-based platform for managing military personnel, armory inventory and operational readiness — with real-time monitoring dashboards and a hardened security model.",
+                bullets: [
+                    "Engineered RBAC and audit trails for accountability across roles.",
+                    "Real-time dashboards for armory inventory & readiness tracking.",
+                    "Centralized control with secure multi-tier access flows."
+                ],
+                link: "https://github.com/RupeshO7a/PRISM",
+                tech: ["Full Stack", "RBAC", "Dashboards", "Security"],
+                icon: "fa-shield-alt"
             }
         ];
 
@@ -315,7 +336,7 @@ window.addEventListener('load', () => {
             
             const filteredProjects = currentCategory === "All" 
                 ? projectData 
-                : projectData.filter(p => p.category === currentCategory);
+                : projectData.filter(p => p.filterCategory === currentCategory);
 
             filteredProjects.forEach((proj, i) => {
                 const div = document.createElement('div');
@@ -344,28 +365,47 @@ window.addEventListener('load', () => {
         }
 
         function renderProject(index) {
-            const project = projectData[index];
-            if (!project || !projectDisplayContent) return;
+            const data = projectData[index];
+            if (!data || !projectDisplayContent) return;
 
             projectDisplayContent.style.opacity = 0;
             projectDisplayContent.style.transform = 'translateY(10px)';
 
             setTimeout(() => {
+                const techTags = data.tech.map((tech, i) =>
+                    `<span class="border-2 border-ink px-3 py-1 text-xs md:text-sm font-bold ${i === 0 ? 'bg-ink text-paper' : 'bg-bgLight'} shadow-2d-sm">${tech}</span>`
+                ).join('');
+
+                const bulletPoints = data.bullets.map(bullet =>
+                    `<li class="flex items-start gap-3 font-medium text-base md:text-lg text-ink/80">
+                        <div class="w-2 h-2 bg-ink mt-2 shrink-0 shadow-2d-sm"></div>
+                        <p>${bullet}</p>
+                    </li>`
+                ).join('');
+
                 projectDisplayContent.innerHTML = `
-                    <div class="flex justify-between items-start mb-6">
-                        <h3 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tight">${project.title}</h3>
-                        <span class="font-mono text-xl font-bold text-ink/50">${project.id}</span>
+                    <div class="flex justify-between items-start mb-6 relative z-20">
+                        <div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-2">
+                                <h3 class="text-3xl md:text-5xl font-display font-black uppercase">${data.title}</h3>
+                                <span class="font-mono text-xs font-bold bg-ink text-paper px-2 py-1 w-fit"><i class="far fa-calendar-alt mr-1"></i> ${data.date}</span>
+                            </div>
+                            <p class="font-mono text-xs md:text-sm font-bold uppercase border-2 border-ink inline-block px-3 py-1 bg-paper shadow-2d-sm">${data.category}</p>
+                        </div>
+                        <a href="${data.link}" target="_blank" class="text-ink hover:scale-110 transition-transform bg-paper border-2 border-ink p-3 rounded-full shadow-2d-sm cursor-hover shrink-0" data-cursor-text="Code">
+                            <i class="fab fa-github text-2xl md:text-3xl"></i>
+                        </a>
                     </div>
-                    <div class="mb-6 flex flex-wrap gap-2">
-                        ${project.tech.map(t => `<span class="px-3 py-1 bg-ink text-paper font-mono text-xs font-bold uppercase shadow-2d-sm">${t}</span>`).join('')}
-                    </div>
-                    <p class="text-lg mb-8 leading-relaxed font-medium text-ink/80 border-l-4 border-ink pl-4">
-                        ${project.description}
+                    <p class="text-lg md:text-xl font-bold mb-4 leading-relaxed relative z-20">
+                        ${data.desc}
                     </p>
-                    <div class="flex gap-4">
-                        <a href="${project.link}" class="magnetic-btn border-2 border-ink px-6 py-3 font-mono text-sm font-bold uppercase hover:bg-ink hover:text-paper transition-colors shadow-2d-hover" data-cursor-text="Launch">Live System</a>
-                        <a href="${project.github}" class="magnetic-btn border-2 border-ink px-6 py-3 font-mono text-sm font-bold uppercase hover:bg-ink hover:text-paper transition-colors shadow-2d-hover bg-paper" data-cursor-text="Code"><i class="fab fa-github"></i> Source</a>
+                    <ul class="space-y-3 mb-8 flex-grow relative z-20">
+                        ${bulletPoints}
+                    </ul>
+                    <div class="flex flex-wrap gap-2 mt-auto border-t-4 border-ink border-dashed pt-6 relative z-20">
+                        ${techTags}
                     </div>
+                    <i class="fas ${data.icon} absolute -bottom-10 -right-10 text-[10rem] md:text-[14rem] text-ink/5 pointer-events-none group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 z-0"></i>
                 `;
                 projectDisplayContent.style.opacity = 1;
                 projectDisplayContent.style.transform = 'translateY(0)';

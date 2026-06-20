@@ -278,7 +278,7 @@ window.addEventListener('load', () => {
             {
                 title: "MedChain",
                 id: "01",
-                filterCategory: "Blockchain",
+                filterCategory: ["Blockchain", "Full Stack"],
                 category: "Blockchain Healthcare Exchange",
                 date: "Jan 2026 - Apr 2026",
                 desc: "A blockchain-based healthcare data exchange built on Ethereum & Solidity — enabling secure, tamper-proof sharing of patient records across multiple institutions with patient-controlled consent.",
@@ -294,7 +294,7 @@ window.addEventListener('load', () => {
             {
                 title: "GRIPS",
                 id: "02",
-                filterCategory: "AI/ML",
+                filterCategory: ["AI/ML"],
                 category: "Glove-Based Impact System",
                 date: "Jan 2026 - Apr 2026",
                 desc: "AI-powered wearable cricket analytics system using smart glove sensors, TGNN, and edge AI for real-time biomechanical shot classification and performance analysis.",
@@ -310,7 +310,7 @@ window.addEventListener('load', () => {
             {
                 title: "PRISM",
                 id: "03",
-                filterCategory: "AI/ML",
+                filterCategory: ["AI/ML", "Full Stack"],
                 category: "Resource & Inventory",
                 date: "Aug 2025 - Nov 2025",
                 desc: "A full-stack role-based platform for managing military personnel, armory inventory and operational readiness — with real-time monitoring dashboards and a hardened security model.",
@@ -336,7 +336,7 @@ window.addEventListener('load', () => {
             
             const filteredProjects = currentCategory === "All" 
                 ? projectData 
-                : projectData.filter(p => p.filterCategory === currentCategory);
+                : projectData.filter(p => p.filterCategory.includes(currentCategory));
 
             filteredProjects.forEach((proj, i) => {
                 const div = document.createElement('div');
@@ -605,18 +605,27 @@ window.addEventListener('load', () => {
         }
 
         if(terminalOverlay) {
+            const toggleTerminal = () => {
+                if(terminalOverlay.classList.contains('hidden')) {
+                    openTerminal();
+                } else {
+                    closeTerminal();
+                }
+            };
+
             document.addEventListener('keydown', (e) => {
                 if(e.key === '`' || e.key === '~') {
                     e.preventDefault();
-                    if(terminalOverlay.classList.contains('hidden')) {
-                        openTerminal();
-                    } else {
-                        closeTerminal();
-                    }
+                    toggleTerminal();
                 }
             });
 
             closeTerminalBtn.addEventListener('click', closeTerminal);
+            
+            const terminalTriggerBtn = document.getElementById('terminal-trigger-btn');
+            if (terminalTriggerBtn) {
+                terminalTriggerBtn.addEventListener('click', toggleTerminal);
+            }
 
             terminalInput.addEventListener('keydown', (e) => {
                 if(e.key === 'Enter') {

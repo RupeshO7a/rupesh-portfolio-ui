@@ -622,10 +622,10 @@ window.addEventListener('load', () => {
 
             closeTerminalBtn.addEventListener('click', closeTerminal);
             
-            const terminalTriggerBtn = document.getElementById('terminal-trigger-btn');
-            if (terminalTriggerBtn) {
-                terminalTriggerBtn.addEventListener('click', toggleTerminal);
-            }
+            const terminalTriggerBtns = document.querySelectorAll('.terminal-trigger-btn');
+            terminalTriggerBtns.forEach(btn => {
+                btn.addEventListener('click', toggleTerminal);
+            });
 
             terminalInput.addEventListener('keydown', (e) => {
                 if(e.key === 'Enter') {

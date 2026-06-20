@@ -78,7 +78,6 @@ window.addEventListener('load', () => {
                             loader.style.opacity = '0';
                             setTimeout(() => {
                                 loader.style.display = 'none';
-                                revealObserver.observe(document.body);
                                 typeIntro();
                             }, 500);
                         }, 600);
@@ -91,7 +90,6 @@ window.addEventListener('load', () => {
                     setTimeout(typeLine, 200);
                 });
             } else {
-                revealObserver.observe(document.body);
                 typeIntro();
             }
         });

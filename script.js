@@ -511,8 +511,9 @@ window.addEventListener('load', () => {
             skillsChart = new Chart(ctx, chartConfig);
 
             // Update chart colors on theme toggle
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
+            const themeBtn = document.getElementById('theme-toggle');
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
                     setTimeout(() => {
                         const newInk = getInkColor();
                         const newPaper = getPaperColor();

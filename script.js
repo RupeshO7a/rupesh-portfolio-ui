@@ -362,26 +362,20 @@ window.addEventListener('load', () => {
                     <p class="text-lg mb-8 leading-relaxed font-medium text-ink/80 border-l-4 border-ink pl-4">
                         ${project.description}
                     </p>
-                    <ul class="space-y-3 mb-8 flex-grow relative z-20">
-                        ${bulletPoints}
-                    </ul>
-                    <div class="flex flex-wrap gap-2 mt-auto border-t-4 border-ink border-dashed pt-6 relative z-20">
-                        ${techTags}
+                    <div class="flex gap-4">
+                        <a href="${project.link}" class="magnetic-btn border-2 border-ink px-6 py-3 font-mono text-sm font-bold uppercase hover:bg-ink hover:text-paper transition-colors shadow-2d-hover" data-cursor-text="Launch">Live System</a>
+                        <a href="${project.github}" class="magnetic-btn border-2 border-ink px-6 py-3 font-mono text-sm font-bold uppercase hover:bg-ink hover:text-paper transition-colors shadow-2d-hover bg-paper" data-cursor-text="Code"><i class="fab fa-github"></i> Source</a>
                     </div>
-                    <i class="fas ${data.icon} absolute -bottom-10 -right-10 text-[10rem] md:text-[14rem] text-ink/5 pointer-events-none group-hover:scale-110 group-hover:-rotate-12 transition-transform duration-700 z-0"></i>
                 `;
-
-                displayContent.classList.remove('opacity-0', 'translate-y-4');
-                displayContent.classList.add('opacity-100', 'translate-y-0');
+                projectDisplayContent.style.opacity = 1;
+                projectDisplayContent.style.transform = 'translateY(0)';
             }, 300);
         }
 
-        navItems.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                const index = parseInt(item.getAttribute('data-index'));
-                renderProject(index);
-            });
-        });
+        // Initialize Project Nav
+        if (projectNavContainer) {
+            renderProjectNav();
+        }
 
         // Magnetic Buttons
         const magneticBtns = document.querySelectorAll('.magnetic-btn');
